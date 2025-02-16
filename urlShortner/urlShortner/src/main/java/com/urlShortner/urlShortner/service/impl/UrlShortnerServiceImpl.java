@@ -5,10 +5,8 @@ import com.urlShortner.urlShortner.repository.UrlShortnerRepository;
 import com.urlShortner.urlShortner.service.UrlShortnerService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.Base64;
 import java.util.Date;
 import java.util.Optional;
 
@@ -28,9 +26,9 @@ public class UrlShortnerServiceImpl implements UrlShortnerService {
             }
             urlShortnerRepository.delete(urlShortner);
         }
-        var urlBytes = url.getBytes();
-        String trimmedUrl = Base64.getEncoder().encodeToString(urlBytes).substring(0, 8);
-        String shortenUrl = httpServletRequest.getRequestURL() + trimmedUrl;
+        String trimmedUrl = generateShortKey(url);
+        String baseUrl = httpServletRequest.getRequestURL().toString().replace(httpServletRequest.getRequestURI(), "");
+        String shortenUrl = baseUrl + "/" + trimmedUrl; //// instead of getting whole url finding base url of the application
         urlShortnerRepository.save(buildUrlShortner(url, trimmedUrl));
         return shortenUrl;
     }
@@ -38,11 +36,11 @@ public class UrlShortnerServiceImpl implements UrlShortnerService {
     @Override
     public String redirectUrl(String uniqueKey) {
         Optional<UrlShortner> urlShortnerOptional = urlShortnerRepository.findUrlShortnerByuniqueKey(uniqueKey);
-        if (urlShortnerOptional.isEmpty()){
+        if (urlShortnerOptional.isEmpty()) {
             return "Bad request";
         }
-       UrlShortner urlShortner =  urlShortnerOptional.get();
-        if (urlShortner.isExpired()){
+        UrlShortner urlShortner = urlShortnerOptional.get();
+        if (urlShortner.isExpired()) {
             return "expired Url";
         }
         return urlShortner.getFullUrl();
@@ -51,5 +49,10 @@ public class UrlShortnerServiceImpl implements UrlShortnerService {
 
     private UrlShortner buildUrlShortner(String fullUrl, String shortKey) {
         return new UrlShortner(null, shortKey, fullUrl, new Date(), null, false);
+    }
+
+    private String generateShortKey(String url) {
+        int hash = url.hashCode();  /// getting hash of the string
+        return Integer.toHexString(hash).substring(0, 8); // Safer than Base64
     }
 }
