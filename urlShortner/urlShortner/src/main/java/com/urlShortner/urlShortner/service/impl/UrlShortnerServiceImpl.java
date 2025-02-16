@@ -5,6 +5,7 @@ import com.urlShortner.urlShortner.repository.UrlShortnerRepository;
 import com.urlShortner.urlShortner.service.UrlShortnerService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Base64;
@@ -29,9 +30,22 @@ public class UrlShortnerServiceImpl implements UrlShortnerService {
         }
         var urlBytes = url.getBytes();
         String trimmedUrl = Base64.getEncoder().encodeToString(urlBytes).substring(0, 8);
-        String shortenUrl = httpServletRequest.getRequestURL() + "/" + trimmedUrl;
-        urlShortnerRepository.save(buildUrlShortner(url, shortenUrl));
+        String shortenUrl = httpServletRequest.getRequestURL() + trimmedUrl;
+        urlShortnerRepository.save(buildUrlShortner(url, trimmedUrl));
         return shortenUrl;
+    }
+
+    @Override
+    public String redirectUrl(String uniqueKey) {
+        Optional<UrlShortner> urlShortnerOptional = urlShortnerRepository.findUrlShortnerByuniqueKey(uniqueKey);
+        if (urlShortnerOptional.isEmpty()){
+            return "Bad request";
+        }
+       UrlShortner urlShortner =  urlShortnerOptional.get();
+        if (urlShortner.isExpired()){
+            return "expired Url";
+        }
+        return urlShortner.getFullUrl();
     }
 
 

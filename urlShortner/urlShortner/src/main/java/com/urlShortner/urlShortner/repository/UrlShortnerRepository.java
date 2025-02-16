@@ -9,4 +9,6 @@ public interface UrlShortnerRepository extends JpaRepository<UrlShortner, Long> 
 
 
     Optional<UrlShortner> findUrlShortnerByfullUrl(String url);
+
+    Optional<UrlShortner> findUrlShortnerByuniqueKey(String uniqueKey);
 }
