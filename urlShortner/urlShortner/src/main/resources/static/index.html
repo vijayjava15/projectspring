@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <h1>URL Shortener</h1>
+        <div class="input-group">
+            <input type="url" id="urlInput" placeholder="Enter your long URL" required>
+            <button id="shortenBtn">Shorten URL</button>
+        </div>
+        <div id="result" class="result hidden">
+            <input type="text" id="shortUrl" readonly>
+            <button id="copyBtn">Copy</button>
+        </div>
+        <div id="error" class="error hidden"></div>
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+        </div>
+    </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>

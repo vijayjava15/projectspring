@@ -17,8 +17,8 @@ public class UrlController {
     UrlShortnerService urlShortnerService;
 
 
-    @GetMapping(value = "/")
-    public Object shortnenUrl(@RequestParam(value = "url") String url, HttpServletRequest request) {
+    @GetMapping(value = "/url")
+    public Object shortnenUrl(@RequestBody String url, HttpServletRequest request) {
         return urlShortnerService.shortUrl(url, request);
     }
 
