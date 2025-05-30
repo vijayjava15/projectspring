@@ -20,7 +20,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         chatRoomRepository.save(chatRoom);
 
         return "saved sucessfully";
-    };
+    }
 
 
     @Override

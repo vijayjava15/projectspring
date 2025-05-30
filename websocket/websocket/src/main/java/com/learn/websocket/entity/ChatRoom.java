@@ -1,17 +1,38 @@
 package com.learn.websocket.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Entity
 @Table(name = "chatroom")
-public class ChatRoom  extends BaseEntity{
+@EntityListeners(EntityTracker.class)
+public class ChatRoom extends BaseEntity {
 
     private String roomName;
+
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public ChatRoom(String roomName) {
+        this.roomName = roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
+
+    @Override
+    public String toString() {
+        return "ChatRoom{" +
+                "roomName='" + roomName + '\'' +
+                '}';
+    }
+
+    public ChatRoom() {
+
+    }
 }
