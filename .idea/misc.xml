@@ -6,6 +6,7 @@
       <list>
         <option value="$PROJECT_DIR$/urlShortner/urlShortner/pom.xml" />
         <option value="$PROJECT_DIR$/websocket/websocket/pom.xml" />
+        <option value="$PROJECT_DIR$/commonPractice/commonPractice/pom.xml" />
       </list>
     </option>
   </component>

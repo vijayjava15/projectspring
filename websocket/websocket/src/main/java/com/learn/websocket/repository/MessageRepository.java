@@ -1,10 +1,10 @@
 package com.learn.websocket.repository;
 
-import com.learn.websocket.entity.Employee;
+import com.learn.websocket.entity.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MessageRepository extends JpaRepository<Employee,Long> {
+public interface MessageRepository extends JpaRepository<Message,Long> {
 
 }

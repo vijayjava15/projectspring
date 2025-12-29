@@ -22,6 +22,7 @@ public class GreetingController {
     @MessageMapping("/chat/{room}/sendMessage")
     public void sendMessage(@DestinationVariable String room,
                             @Payload HelloMsg chatMessage) {
+        System.out.println("***************************************");
         messagingTemplate.convertAndSend("/topic/" + room, chatMessage);
     }
 

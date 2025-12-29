@@ -1,6 +1,5 @@
 package com.learn.websocket;
 
-import com.learn.websocket.service.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,10 +15,8 @@ public class WebsocketApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		testService.test();
+
 	}
 
 
-	@Autowired
-	TestService testService;
 }
