@@ -3,6 +3,6 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/commonPractice/commonPractice/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/urlShortner/urlShortner/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/websocket/websocket/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/websocket/wss/src/main/java" charset="UTF-8" />
   </component>
 </project>
