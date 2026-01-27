@@ -22,6 +22,8 @@ public abstract class BaseEntity {
     private Long id;
 
     @CreatedDate
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(updatable = false, insertable = true)
     private Date createdDate;
 
     public Long getId() {
@@ -49,6 +51,8 @@ public abstract class BaseEntity {
     }
 
     @LastModifiedDate
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(insertable = false, updatable = true)
     private Date updatedDate;
 
 

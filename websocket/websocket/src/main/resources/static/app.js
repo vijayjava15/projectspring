@@ -12,7 +12,7 @@ async function fetchRooms() {
 async function createRoom() {
     const roomName = document.getElementById('roomName').value;
     if (roomName.trim()) {
-        await fetch('/chat/save', {
+        await fetch('/chat/{room}/addUser', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body:  roomName
