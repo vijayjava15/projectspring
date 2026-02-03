@@ -2,10 +2,7 @@ package com.learn.websocket.billing.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.learn.websocket.entity.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 @Entity
 public class CartItem extends BaseEntity {
@@ -16,8 +13,8 @@ public class CartItem extends BaseEntity {
 
   private Long quantity;
 
-  @ManyToOne
-  @JoinColumn(name = "cart_id", referencedColumnName = "id")
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "cart_id", nullable = false)
   @JsonIgnore
   private Cart cart;
 

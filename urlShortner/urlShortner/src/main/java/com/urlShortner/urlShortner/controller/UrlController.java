@@ -17,15 +17,15 @@ public class UrlController {
     UrlShortnerService urlShortnerService;
 
 
-    @GetMapping(value = "/url")
+    @PostMapping(value = "/url")
     public Object shortnenUrl(@RequestBody String url, HttpServletRequest request) {
         return urlShortnerService.shortUrl(url, request);
     }
 
 
-    @GetMapping("/{url}")
-    public void redirectUrl(@PathVariable(value = "url") String url, HttpServletResponse response) throws IOException {
+    @PostMapping("/get")
+    public String redirectUrl(@RequestBody String url, HttpServletResponse response) throws IOException {
        String fullUrl =  urlShortnerService.redirectUrl(url);
-       response.sendRedirect(fullUrl);
+       return fullUrl;
     }
 }

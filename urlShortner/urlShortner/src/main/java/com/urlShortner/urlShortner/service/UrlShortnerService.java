@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UrlShortnerService {
 
-    Object shortUrl(String url, HttpServletRequest httpServletRequest);
+    String shortUrl(String url, HttpServletRequest httpServletRequest);
 
     String redirectUrl(String uniqueKey);
 }

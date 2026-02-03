@@ -18,7 +18,7 @@ public class UrlShortnerServiceImpl implements UrlShortnerService {
     UrlShortnerRepository urlShortnerRepository;
 
     @Override
-    public Object shortUrl(String url, HttpServletRequest httpServletRequest) {
+    public String shortUrl(String url, HttpServletRequest httpServletRequest) {
         String baseUrl = httpServletRequest.getRequestURL().toString().replace(httpServletRequest.getRequestURI(), "");
         Optional<UrlShortner> urlShortnerOptional = urlShortnerRepository.findUrlShortnerByfullUrl(url);
         if (urlShortnerOptional.isPresent()) {
@@ -31,19 +31,19 @@ public class UrlShortnerServiceImpl implements UrlShortnerService {
         String trimmedUrl = generateShortKey(url);
         String shortenUrl = baseUrl + "/" + trimmedUrl; //// instead of getting whole url finding base url of the application
         urlShortnerRepository.save(buildUrlShortner(url, trimmedUrl));
-        return Response.SUCESS("done", shortenUrl);
+        return trimmedUrl;
     }
 
     @Override
     public String redirectUrl(String uniqueKey) {
         Optional<UrlShortner> urlShortnerOptional = urlShortnerRepository.findUrlShortnerByuniqueKey(uniqueKey);
         if (urlShortnerOptional.isEmpty()) {
-            return "Bad request";
+            return "";
         }
         UrlShortner urlShortner = urlShortnerOptional.get();
-        if (urlShortner.isExpired()) {
-            return "expired Url";
-        }
+//        if (urlShortner.isExpired()) {
+//            return "expired Url";
+//        }
         return urlShortner.getFullUrl();
     }
 
