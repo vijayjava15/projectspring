@@ -61,7 +61,7 @@ public class BillingController {
     @PostMapping("order/create")
     public Object createOrder(@RequestBody CartDto cart) {
         Order order = billingService.createOrder(cart);
-        byte[] pdf = billPdfGenerator.generateInvoice(order, order.getOrderItems());
+        byte[] pdf = billPdfGenerator.generateBill(order, order.getOrderItems());
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=bill.pdf")
                 .contentType(MediaType.APPLICATION_PDF)
