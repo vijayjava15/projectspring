@@ -25,6 +25,13 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+
+    @Enumerated(EnumType.STRING)
+    private AppType appType;
+
+    @Column(columnDefinition = "text")
+    private String token;
+
     public String getUsername() {
         return username;
     }
@@ -56,4 +63,21 @@ public class User extends BaseEntity {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    public AppType getAppType() {
+        return appType;
+    }
+
+    public void setAppType(AppType appType) {
+        this.appType = appType;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
 }

@@ -22,6 +22,8 @@ public class Menu extends BaseEntity {
 
     private String icon;
 
+    private Long userId;
+
     public String getMenuName() {
         return menuName;
     }

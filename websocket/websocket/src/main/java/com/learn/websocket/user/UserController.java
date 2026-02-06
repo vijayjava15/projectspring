@@ -28,6 +28,12 @@ public class UserController {
         return userService.login(user);
     }
 
+
+    @PostMapping("/verifyToken")
+    public boolean verifyToken(@RequestBody User user){
+        
+        return userService.verifyToken(user.getToken());
+    }
     
 
 }

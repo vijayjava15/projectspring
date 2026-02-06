@@ -36,6 +36,7 @@ public class MenuServiceImpl implements MenuService{
             }
         }
 
+//        menu.setUserId();
         Menu savedMenu = menuRepository.save(menu);
         String message = menu.getId()!=null? "menu updated successfully" : "menu saved successfully" ;
         return ResponseUtility.OK(savedMenu, message);
