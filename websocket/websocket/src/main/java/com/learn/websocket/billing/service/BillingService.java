@@ -7,6 +7,9 @@ import com.learn.websocket.billing.mapper.CartItemMapper;
 import com.learn.websocket.billing.repository.*;
 import com.learn.websocket.billing.utility.BillPdfGenerator;
 import com.learn.websocket.exception.ResponseUtility;
+import com.learn.websocket.notification.NotificationManager;
+import com.learn.websocket.user.UserRepository;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +30,8 @@ public class BillingService {
     @Autowired
     ProductRepository productRepository;
 
-
     @Autowired
     CartItemRepo cartItemRepo;
-
 
     @Autowired
     CartRepo cartRepo;
@@ -44,7 +45,11 @@ public class BillingService {
     @Autowired
     OrderItemRepo orderItemRepo;
 
+    @Autowired
+    NotificationManager notificationManager;
 
+    @Autowired
+    UserRepository userRepository;
 
     public Object addProduct(Product product) {
         StringBuilder error = new StringBuilder();
@@ -70,10 +75,9 @@ public class BillingService {
 
     }
 
-
     public Object addItemInCart(CartDto cartDto) {
 
-        //checking current cart for current user
+        // checking current cart for current user
         Optional<Cart> optionalCart = cartRepo.findByUserName(cartDto.getUserName());
         Cart cart = new Cart();
         if (optionalCart.isPresent()) {
@@ -90,20 +94,21 @@ public class BillingService {
 
             for (CartItem existingCartItem : cart.getCartItems()) {
                 existingCartItemMap.put(existingCartItem.getProductName(), existingCartItem);
-                mapCount.put(existingCartItem.getProductName(), existingCartItemMap.get(existingCartItem.getProductName()).getQuantity());
+                mapCount.put(existingCartItem.getProductName(),
+                        existingCartItemMap.get(existingCartItem.getProductName()).getQuantity());
 
             }
 
             for (CartItem newCartItem : newCartItems) {
                 if (existingCartItemMap.containsKey(newCartItem.getProductName())) {
-                    mapCount.put(newCartItem.getProductName(), existingCartItemMap.get(newCartItem.getProductName()).getQuantity() + 1);
+                    mapCount.put(newCartItem.getProductName(),
+                            existingCartItemMap.get(newCartItem.getProductName()).getQuantity() + 1);
 
                 } else {
                     existingCartItemMap.put(newCartItem.getProductName(), newCartItem);
                     mapCount.put(newCartItem.getProductName(), 1l);
                 }
             }
-
 
             for (CartItem mappedCartItem : existingCartItemMap.values()) {
                 mappedCartItem.setQuantity(mapCount.get(mappedCartItem.getProductName()));
@@ -136,10 +141,9 @@ public class BillingService {
         return ResponseUtility.OK(cart, "product added to cart");
     }
 
-
     @Transactional
     public Object getItem(CartDto cartDto) {
-        //checking current cart for current user
+        // checking current cart for current user
 
         try {
             Optional<Cart> optionalCart = cartRepo.findByUserName(cartDto.getUserName());
@@ -164,7 +168,7 @@ public class BillingService {
     @Transactional
     public Object clearCart(CartDto cartDto) {
         Optional<Cart> optionalCart = cartRepo.findByUserName(cartDto.getUserName());
-        if (optionalCart.isPresent()){
+        if (optionalCart.isPresent()) {
             Cart cart = optionalCart.get();
             cart.getCartItems().clear();
             cartRepo.delete(cart);
@@ -199,6 +203,8 @@ public class BillingService {
             return savedOrder;
         }catch (Exception ex){
             ex.printStackTrace();
+        }finally{
+           notificationManager.notifyAll(userRepository.findByUsername(cartDto.getUserName()).get(), "thank you for purchasing from our store");
         }
        return null;
     }
