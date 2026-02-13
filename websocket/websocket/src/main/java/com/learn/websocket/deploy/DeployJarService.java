@@ -16,10 +16,11 @@ public class DeployJarService {
         // goto directory
         List<String> cmd = new ArrayList<>();
 
-        cmd.add("cd /home/bzf/backend/websocket/websocket");
+        cmd.add("cd /appl/server/backend/code/projectSpring/websocket/websocket");
         cmd.add(" mvn clean package ");
-        cmd.add(" sudo mv  jar  /home/bzf/backendPublish/  ");
-        cmd.add(" java -jar jarName");
+        cmd.add(" sudo mv  /appl/server/backend/code/projectSpring/websocket/websocket/target/websocket-0.0.1-SNAPSHOT.jar  /appl/server/backend/");
+        cmd.add("cd /appl/server/backend/");
+        cmd.add(" nohup java -jar websocket-0.0.1-SNAPSHOT.jar");
 
         ProcessBuilder pb = new ProcessBuilder(cmd);
 
