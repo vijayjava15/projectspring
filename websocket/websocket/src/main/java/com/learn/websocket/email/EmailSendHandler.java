@@ -45,6 +45,7 @@ public class EmailSendHandler implements NotificationHandler{
             mailMessage.setFrom(defaultFrom);
         }
         mailSender.send(mailMessage);
+        System.out.println("sending email");
         saveNoticification(user, body);
     }
 
