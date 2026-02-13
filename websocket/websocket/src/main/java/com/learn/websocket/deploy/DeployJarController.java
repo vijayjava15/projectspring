@@ -18,7 +18,7 @@ public class DeployJarController {
     @PostMapping("/webhook/deploy")
     public void postMethodName (@RequestBody String value) throws  InterruptedException, java.io.IOException{
         //TODO: process POST request
-        System.out.println("deployment running");
+        System.out.println("deployment ");
          deployJarService.deploy();
     }
     
