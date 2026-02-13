@@ -15,7 +15,7 @@ public class DeployJarService {
 
         // goto directory
         List<String> cmd = new ArrayList<>();
-
+        cmd.add("git status");
         cmd.add("cd /appl/server/backend/code/projectSpring/websocket/websocket");
         cmd.add(" mvn clean package ");
         cmd.add(" sudo mv  /appl/server/backend/code/projectSpring/websocket/websocket/target/websocket-0.0.1-SNAPSHOT.jar  /appl/server/backend/");
