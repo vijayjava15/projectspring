@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -20,7 +21,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 
-    private static final Logger log = LoggerFactory .getLogger(UserServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
     public Object registerUser(User user) {
@@ -87,7 +88,7 @@ public class UserServiceImpl implements UserService {
             return ResponseUtility.BADREQUEST(null, "password wrong ");
         }
 
-        //generate token need separate method in future
+        // generate token need separate method in future
         Map<String, Object> claims = new HashMap<>();
         claims.put("email", user.getEmail());
         String token = JwtUtil.generateToken(userInfo.getUsername(), claims);
@@ -98,11 +99,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean verifyToken(String token) {
-        
+
         if (StringUtils.isBlank(token)) {
             return false;
         }
-        
+
         log.info(token);
         Optional<User> optionalUser = userRepository.findByToken(token);
         if (optionalUser.isEmpty()) {
@@ -111,7 +112,7 @@ public class UserServiceImpl implements UserService {
         User user = optionalUser.get();
         try {
             String usernameFromToken = JwtUtil.getUsername(token);
-           log.info("usernameFromToken       :"  +   usernameFromToken);
+            log.info("usernameFromToken       :" + usernameFromToken);
             if (!StringUtils.equals(usernameFromToken, user.getUsername())) {
                 return false;
             }
@@ -122,5 +123,10 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public Object getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return ResponseUtility.OK(users, "Users fetched successfully");
+    }
 
 }
